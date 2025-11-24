@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamat Hari Guru</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #eaf3ff, #fff6ff);
+            font-family: "Poppins", sans-serif;
+            overflow: hidden;
+        }
+
+        .card {
+            width: 90%;
+            max-width: 460px;
+            background: white;
+            border-radius: 20px;
+            padding: 28px;
+            text-align: center;
+            box-shadow: 0px 10px 25px rgba(0,0,0,0.08);
+            animation: fadeIn 1.2s ease;
+            position: relative;
+            z-index: 10;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        h1 {
+            font-size: 22px;
+            color: #4f75ff;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        p {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.6;
+            margin: 10px 0;
+            transition: color 0.3s ease;
+        }
+
+        p:hover {
+            color: #4f75ff;
+        }
+
+        .emoji {
+            font-size: 40px;
+            animation: bounce 2.5s infinite;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .emoji:hover {
+            transform: scale(1.2);
+        }
+
+        .signature {
+            margin-top: 20px;
+            font-weight: 600;
+            font-size: 15px;
+            color: #000;
+            padding: 10px;
+            background: #f8faff;
+            border-radius: 10px;
+        }
+
+        .button {
+            background: #4f75ff;
+            padding: 12px 18px;
+            border-radius: 12px;
+            margin-top: 20px;
+            display: inline-block;
+            font-weight: 600;
+            cursor: pointer;
+            color: white;
+            transition: all 0.3s ease;
+            font-size: 15px;
+            user-select: none;
+            border: none;
+            outline: none;
+            box-shadow: 0 4px 15px rgba(79, 117, 255, 0.3);
+        }
+
+        .button:hover, .button:active {
+            transform: scale(1.05) translateY(-2px);
+            background: #2b48ff;
+            box-shadow: 0 6px 20px rgba(79, 117, 255, 0.4);
+        }
+
+        .button:active {
+            transform: scale(0.98) translateY(0);
+        }
+
+        .effects-container {
+            margin-top: 20px;
+        }
+
+        .effect-btn {
+            background: #ff6b4a;
+            padding: 8px 15px;
+            border-radius: 8px;
+            margin: 5px;
+            display: inline-block;
+            font-weight: 600;
+            cursor: pointer;
+            color: white;
+            transition: all 0.3s ease;
+            font-size: 12px;
+            border: none;
+        }
+
+        .effect-btn:hover {
+            transform: scale(1.1);
+            background: #ff4a2d;
+        }
+
+        @keyframes fadeIn {
+            from {opacity:0; transform: translateY(20px);}
+            to {opacity:1; transform: translateY(0);}
+        }
+
+        @keyframes bounce {
+            0%,100% {transform: translateY(0);}
+            50% {transform: translateY(-6px);}
+        }
+
+        @keyframes pulse {
+            0%,100% {transform: scale(1);}
+            50% {transform: scale(1.05);}
+        }
+
+        @keyframes rainbow {
+            0% {color: #ff6b4a;}
+            25% {color: #4f75ff;}
+            50% {color: #2ecc71;}
+            75% {color: #9b59b6;}
+            100% {color: #ff6b4a;}
+        }
+
+        @keyframes shake {
+            0%,100% {transform: translateX(0);}
+            25% {transform: translateX(-5px);}
+            75% {transform: translateX(5px);}
+        }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: hsl(var(--hue), 100%, 50%);
+            top: -10px;
+            animation: fall linear forwards;
+            opacity: 0.9;
+            z-index: 1;
+        }
+
+        /* Floating hearts */
+        .heart {
+            position: fixed;
+            font-size: 20px;
+            animation: floatUp linear forwards;
+            z-index: 2;
+        }
+
+        /* Math symbols */
+        .math-symbol {
+            position: fixed;
+            font-size: 24px;
+            animation: floatUp linear forwards;
+            z-index: 2;
+            opacity: 0.8;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(110vh) rotate(360deg); }
+        }
+
+        @keyframes floatUp {
+            to { 
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .click-count {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .surprise-text {
+            display: none;
+            margin-top: 15px;
+            padding: 10px;
+            background: linear-gradient(45deg, #4f75ff, #9b59b6);
+            color: white;
+            border-radius: 10px;
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+    
+    <div class="emoji" id="mainEmoji">📚✨</div>
+    <h1 id="mainTitle">Selamat Hari Guru, Pak Tunggal.</h1>
+
+    <p>
+        Tidak semua pahlawan memakai jubah;<br>
+        sebagian hadir dengan spidol,<br>
+        papan tulis penuh rumus,<br>
+        dan kesabaran yang tidak pernah habis.
+    </p>
+
+    <p>
+        Terima kasih, Pak, sudah sabar membimbing kami,<br>
+        menjelaskan ulang ketika kami belum paham,<br>
+        dan membuat matematika terasa lebih bisa didekati.
+    </p>
+
+    <p>
+        Bapak mengajarkan bahwa meskipun suatu soal tampak sulit,<br>
+        selalu ada cara untuk mencari jawabannya.
+    </p>
+
+    <div class="signature">💙 Dari kami,<br><b>Kelas X-4</b></div>
+
+    <div class="effects-container">
+        <button class="button" id="celebrateBtn">🎉 YEEY</button>
+        <button class="effect-btn" onclick="createHearts()">💖</button>
+        <button class="effect-btn" onclick="createMathSymbols()">π</button>
+        <button class="effect-btn" onclick="rainbowText()">🌈</button>
+        <button class="effect-btn" onclick="shakeCard()">📱</button>
+        <button class="effect-btn" onclick="showSurprise()">🎁</button>
+    </div>
+
+    <div class="click-count" id="clickCount">Telah diklik: 0 kali</div>
+    <div class="surprise-text" id="surpriseText">
+        Terima kasih sudah menjadi guru terbaik! 🎓<br>
+        Semoga sehat selalu dan bahagia! 💝
+    </div>
+
+</div>
+
+<script>
+    let clickCount = 0;
+    const clickCounter = document.getElementById('clickCount');
+    const surpriseText = document.getElementById('surpriseText');
+    const mainEmoji = document.getElementById('mainEmoji');
+    const mainTitle = document.getElementById('mainTitle');
+
+    // Efek suara sederhana menggunakan Web Audio API
+    function playPopSound() {
+        try {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+            oscillator.frequency.exponentialRampToValueAtTime(200, audioContext.currentTime + 0.1);
+            
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.1);
+        } catch (e) {
+            console.log('Audio tidak didukung, lanjut tanpa suara');
+        }
+    }
+
+    function playCelebrateSound() {
+        try {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            
+            // Buat beberapa suara celebrasi
+            for (let i = 0; i < 3; i++) {
+                setTimeout(() => {
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    oscillator.frequency.setValueAtTime(600 + i * 200, audioContext.currentTime);
+                    gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+                    
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.2);
+                }, i * 100);
+            }
+        } catch (e) {
+            console.log('Audio tidak didukung');
+        }
+    }
+
+    // Fungsi efek-efek interaktif
+    function createHearts() {
+        playPopSound();
+        clickCount++;
+        clickCounter.textContent = `Telah diklik: ${clickCount} kali`;
+        
+        for (let i = 0; i < 15; i++) {
+            setTimeout(() => {
+                const heart = document.createElement("div");
+                heart.className = "heart";
+                heart.innerHTML = "💖";
+                heart.style.left = Math.random() * 100 + "vw";
+                heart.style.setProperty("--hue", Math.random() * 360);
+                heart.style.animationDuration = (Math.random() * 2 + 2) + "s";
+                document.body.appendChild(heart);
+                
+                setTimeout(() => {
+                    if (heart.parentNode) {
+                        heart.parentNode.removeChild(heart);
+                    }
+                }, 3000);
+            }, i * 100);
+        }
+    }
+
+    function createMathSymbols() {
+        playPopSound();
+        clickCount++;
+        clickCounter.textContent = `Telah diklik: ${clickCount} kali`;
+        
+        const symbols = ["π", "∞", "∑", "∫", "Δ", "√", "θ", "α", "β", "γ"];
+        
+        for (let i = 0; i < 12; i++) {
+            setTimeout(() => {
+                const symbol = document.createElement("div");
+                symbol.className = "math-symbol";
+                symbol.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
+                symbol.style.left = Math.random() * 100 + "vw";
+                symbol.style.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                symbol.style.animationDuration = (Math.random() * 3 + 2) + "s";
+                document.body.appendChild(symbol);
+                
+                setTimeout(() => {
+                    if (symbol.parentNode) {
+                        symbol.parentNode.removeChild(symbol);
+                    }
+                }, 5000);
+            }, i * 150);
+        }
+    }
+
+    function rainbowText() {
+        playPopSound();
+        clickCount++;
+        clickCounter.textContent = `Telah diklik: ${clickCount} kali`;
+        
+        mainTitle.style.animation = 'rainbow 3s infinite';
+        setTimeout(() => {
+            mainTitle.style.animation = '';
+        }, 3000);
+    }
+
+    function shakeCard() {
+        playPopSound();
+        clickCount++;
+        clickCounter.textContent = `Telah diklik: ${clickCount} kali`;
+        
+        const card = document.querySelector('.card');
+        card.style.animation = 'shake 0.5s ease';
+        setTimeout(() => {
+            card.style.animation = '';
+        }, 500);
+    }
+
+    function showSurprise() {
+        playCelebrateSound();
+        clickCount++;
+        clickCounter.textContent = `Telah diklik: ${clickCount} kali`;
+        
+        surpriseText.style.display = 'block';
+        createConfetti();
+        
+        // Ganti emoji utama
+        const emojis = ["🎓", "🌟", "💝", "🎯", "📚", "✨"];
+        let currentIndex = 0;
+        
+        const emojiInterval = setInterval(() => {
+            mainEmoji.textContent = emojis[currentIndex];
+            currentIndex = (currentIndex + 1) % emojis.length;
+        }, 300);
+        
+        setTimeout(() => {
+            clearInterval(emojiInterval);
+            mainEmoji.textContent = "📚✨";
+        }, 3000);
+    }
+
+    function createConfetti() {
+        for (let i = 0; i < 100; i++) {
+            setTimeout(() => {
+                let c = document.createElement("div");
+                c.className = "confetti";
+                c.style.left = Math.random() * 100 + "vw";
+                c.style.setProperty("--hue", Math.random() * 360);
+                c.style.animationDuration = (Math.random() * 2 + 2) + "s";
+                document.body.appendChild(c);
+                
+                setTimeout(() => {
+                    if (c.parentNode) {
+                        c.parentNode.removeChild(c);
+                    }
+                }, 4000);
+            }, i * 30);
+        }
+    }
+
+    // Event listener untuk tombol utama
+    document.getElementById('celebrateBtn').addEventListener('click', function() {
+        playCelebrateSound();
+        clickCount++;
+        clickCounter.textContent = `Telah diklik: ${clickCount} kali`;
+        createConfetti();
+        createHearts();
+        createMathSymbols();
+        
+        // Efek tambahan
+        mainTitle.style.animation = 'rainbow 5s infinite';
+        setTimeout(() => {
+            mainTitle.style.animation = '';
+        }, 5000);
+    });
+
+    // Interaksi dengan emoji utama
+    mainEmoji.addEventListener('click', function() {
+        playPopSound();
+        clickCount++;
+        clickCounter.textContent = `Telah diklik: ${clickCount} kali`;
+        
+        // Efek scale pada emoji
+        this.style.transform = 'scale(1.3)';
+        setTimeout(() => {
+            this.style.transform = '';
+        }, 300);
+    });
+
+    // Interaksi hover pada card
+    const card = document.querySelector('.card');
+    card.addEventListener('mouseenter', function() {
+        this.style.boxShadow = '0px 15px 35px rgba(0,0,0,0.15)';
+    });
+    
+    card.addEventListener('mouseleave', function() {
+        this.style.boxShadow = '0px 10px 25px rgba(0,0,0,0.08)';
+    });
+
+    // Efek ketik untuk signature
+    const signature = document.querySelector('.signature');
+    const originalText = signature.innerHTML;
+    
+    signature.addEventListener('click', function() {
+        playPopSound();
+        this.innerHTML = '';
+        let i = 0;
+        const typingEffect = setInterval(() => {
+            if (i < originalText.length) {
+                this.innerHTML += originalText.charAt(i);
+                i++;
+            } else {
+                clearInterval(typingEffect);
+            }
+        }, 50);
+    });
+</script>
+
+</body>
+</html>
