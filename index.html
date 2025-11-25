@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamat Hari Guru</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #eaf3ff, #fff6ff);
+            font-family: "Poppins", sans-serif;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .page {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.6s ease, opacity 0.6s ease;
+        }
+
+        .page.hidden {
+            transform: translateX(100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .page.active {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .card {
+            width: 90%;
+            max-width: 460px;
+            background: white;
+            border-radius: 20px;
+            padding: 28px;
+            text-align: center;
+            box-shadow: 0px 10px 25px rgba(0,0,0,0.08);
+            animation: fadeIn 1.2s ease;
+            position: relative;
+            z-index: 10;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        h1 {
+            font-size: 22px;
+            color: #4f75ff;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        h2 {
+            font-size: 18px;
+            color: #4f75ff;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.6;
+            margin: 10px 0;
+            transition: color 0.3s ease;
+        }
+
+        p:hover {
+            color: #4f75ff;
+        }
+
+        .emoji {
+            font-size: 40px;
+            animation: bounce 2.5s infinite;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .emoji:hover {
+            transform: scale(1.2);
+        }
+
+        .signature {
+            margin-top: 20px;
+            font-weight: 600;
+            font-size: 15px;
+            color: #000;
+            padding: 10px;
+            background: #f8faff;
+            border-radius: 10px;
+        }
+
+        .button {
+            background: #4f75ff;
+            padding: 12px 18px;
+            border-radius: 12px;
+            margin-top: 20px;
+            display: inline-block;
+            font-weight: 600;
+            cursor: pointer;
+            color: white;
+            transition: all 0.3s ease;
+            font-size: 15px;
+            user-select: none;
+            border: none;
+            outline: none;
+            box-shadow: 0 4px 15px rgba(79, 117, 255, 0.3);
+        }
+
+        .button:hover, .button:active {
+            transform: scale(1.05) translateY(-2px);
+            background: #2b48ff;
+            box-shadow: 0 6px 20px rgba(79, 117, 255, 0.4);
+        }
+
+        .button:active {
+            transform: scale(0.98) translateY(0);
+        }
+
+        .effects-container {
+            margin-top: 20px;
+        }
+
+        .effect-btn {
+            background: #ff6b4a;
+            padding: 8px 15px;
+            border-radius: 8px;
+            margin: 5px;
+            display: inline-block;
+            font-weight: 600;
+            cursor: pointer;
+            color: white;
+            transition: all 0.3s ease;
+            font-size: 12px;
+            border: none;
+        }
+
+        .effect-btn:hover {
+            transform: scale(1.1);
+            background: #ff4a2d;
+        }
+
+        /* Page 2 Styles */
+        .message-card {
+            width: 90%;
+            max-width: 400px;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0px 10px 25px rgba(0,0,0,0.08);
+            position: relative;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+        }
+
+        .message-card.next {
+            transform: translateX(100%) rotate(5deg);
+            opacity: 0;
+        }
+
+        .message-card.prev {
+            transform: translateX(-100%) rotate(-5deg);
+            opacity: 0;
+        }
+
+        .message-card.active {
+            transform: translateX(0) rotate(0);
+            opacity: 1;
+        }
+
+        .student-message {
+            font-size: 15px;
+            color: #333;
+            line-height: 1.6;
+            margin: 20px 0;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            white-space: pre-line;
+        }
+
+        .student-name {
+            font-size: 14px;
+            color: #666;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .nav-btn {
+            background: #4f75ff;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            color: white;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            border: none;
+        }
+
+        .nav-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background: #2b48ff;
+            transform: scale(1.05);
+        }
+
+        .page-indicator {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .back-btn {
+            background: #ff6b4a;
+            margin-top: 15px;
+        }
+
+        .back-btn:hover {
+            background: #ff4a2d;
+        }
+
+        @keyframes fadeIn {
+            from {opacity:0; transform: translateY(20px);}
+            to {opacity:1; transform: translateY(0);}
+        }
+
+        @keyframes bounce {
+            0%,100% {transform: translateY(0);}
+            50% {transform: translateY(-6px);}
+        }
+
+        @keyframes pulse {
+            0%,100% {transform: scale(1);}
+            50% {transform: scale(1.05);}
+        }
+
+        @keyframes rainbow {
+            0% {color: #ff6b4a;}
+            25% {color: #4f75ff;}
+            50% {color: #2ecc71;}
+            75% {color: #9b59b6;}
+            100% {color: #ff6b4a;}
+        }
+
+        @keyframes shake {
+            0%,100% {transform: translateX(0);}
+            25% {transform: translateX(-5px);}
+            75% {transform: translateX(5px);}
+        }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: hsl(var(--hue), 100%, 50%);
+            top: -10px;
+            animation: fall linear forwards;
+            opacity: 0.9;
+            z-index: 1;
+        }
+
+        /* Floating hearts */
+        .heart {
+            position: fixed;
+            font-size: 20px;
+            animation: floatUp linear forwards;
+            z-index: 2;
+        }
+
+        /* Math symbols */
+        .math-symbol {
+            position: fixed;
+            font-size: 24px;
+            animation: floatUp linear forwards;
+            z-index: 2;
+            opacity: 0.8;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(110vh) rotate(360deg); }
+        }
+
+        @keyframes floatUp {
+            to { 
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .click-count {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .surprise-text {
+            display: none;
+            margin-top: 15px;
+            padding: 10px;
+            background: linear-gradient(45deg, #4f75ff, #9b59b6);
+            color: white;
+            border-radius: 10px;
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <!-- Page 1: Ucapan Utama -->
+    <div class="page active" id="page1">
+        <div class="card">
+            <div class="emoji" id="mainEmoji">📚✨</div>
+            <h1 id="mainTitle">Selamat Hari Guru, Pak Tunggal.</h1>
+
+            <p>
+                Tidak semua pahlawan memakai jubah;<br>
+                sebagian hadir dengan spidol,<br>
+                papan tulis penuh rumus,<br>
+                dan kesabaran yang tidak pernah habis.
+            </p>
+
+            <p>
+                Terima kasih, Pak, sudah sabar membimbing kami,<br>
+                menjelaskan ulang ketika kami belum paham,<br>
+                dan membuat matematika terasa lebih bisa didekati.
+            </p>
+
+            <p>
+                Bapak mengajarkan bahwa meskipun suatu soal tampak sulit,<br>
+                selalu ada cara untuk mencari jawabannya.
+            </p>
+
+            <div class="signature">💙 Dari kami,<br><b>Kelas X-4</b></div>
+
+            <div class="effects-container">
+                <button class="button" id="celebrateBtn">🎉YEEY</button>
+                <button class="effect-btn" onclick="createHearts()">💖</button>
+                <button class="effect-btn" onclick="createMathSymbols()">π</button>
+                <button class="effect-btn" onclick="rainbowText()">🌈</button>
+                <button class="effect-btn" onclick="shakeCard()">📱</button>
+                <button class="effect-btn" onclick="showSurprise()">🎁</button>
+            </div>
+
+            <button class="button" onclick="goToPage2()" style="background: #2ecc71;">
+                💌 Baca Pesan Siswa X4
+            </button>
+
+            <div class="click-count" id="clickCount">Telah diklik: 0 kali</div>
+            <div class="surprise-text" id="surpriseText">
+                Terima kasih sudah menjadi guru terbaik! 🎓<br>
+                Semoga sehat selalu dan bahagia! 💝
+            </div>
+        </div>
+    </div>
+
+    <!-- Page 2: Pesan-pesan Siswa -->
+    <div class="page hidden" id="page2">
+        <div class="message-card active" id="messageCard">
+            <div class="emoji">💌</div>
+            <h2>Pesan dari Siswa X-4</h2>
+            
+            <div class="student-message" id="studentMessage">
+                <!-- Pesan akan dimuat di sini -->
+            </div>
+            
+            <div class="student-name" id="studentName">
+                <!-- Akan ditampilkan "Pesan Anonymous" -->
+            </div>
+
+            <div class="navigation">
+                <button class="nav-btn" id="prevBtn" onclick="prevMessage()">⬅️ Sebelumnya</button>
+                <button class="nav-btn" id="nextBtn" onclick="nextMessage()">Selanjutnya ➡️</button>
+            </div>
+
+            <div class="page-indicator" id="pageIndicator">
+                Pesan 1 dari 32
+            </div>
+
+            <button class="button back-btn" onclick="goToPage1()">
+                ↩️ Kembali ke Ucapan
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Data 32 pesan siswa - ANONYMOUS
+    const studentMessages = [
+        "Seru dan terimakasih untuk Pak Tunggal sudah mengajar kami semua ",
+        "Pak Tunggal orangnya sangar, josjis, top. Saya ga nyesel daftar sanmar lalu ketemu Pak Tunggal. Sehat2 selalu pak, semoga langgeng sama pasangannya😘😘😘😘",
+        "Keren, mantab, makasih pak udah mau sabar hadepin kita yang sering nggak serius",
+        "Selama satu semester ini saya merasa banyak mendapatkan pengalaman belajar yang baru dan bermanfaat. Pembelajaran terasa lebih menyenangkan karena penyampaian materi dilakukan dengan jelas dan mudah dipahami. Terima kasih, pak tunggal atas bimbingan dan kesabaran dalam mengajar selama satu semester ini. Cara bapak menyampaikan materi sangat membantu saya memahami pelajaran. Saya berharap ke depannya pembelajaran dapat terus dibuat menarik seperti ini agar kami semakin semangat belajar. Semoga pak tunggal selalu diberikan kesehatan dan kemudahan dalam mengajar.",
+        "Selama 1 semester ini pak tunggal sudah memberikan yang terbaik buat kami keluarga X-4, Terima kasih pak tung atas kesabaran, atas cintamu, atas kasihmu, atas bimbinganmu selama 1 semester inii kepada kami terutama X-4. Maaff in perilaku2 kami yang bikin pak tunggal kesal, marah, ataupun kecewa selama 1 semester ini ya pak. Semogaa di hari guru ini, pak tunggal dapat melayani lebih lagi dengan cara membagikan ilmu lebih banyak kpd siswa/siswi serta yang lainnya. Happyy Teachers Dayy Pak Tunggal!!🥳🙌🏻",
+        "Walaupun semester ini ada naik turunnya, dari saya kami dapat pelajaran yang berharga selama menjalani semester 1 ini dengan paktung, saya pribadi menyadari bahwa pentingnya menghargai orang lain.",
+        "Selamat Hari Guru pak Terima kasih atas segala ilmu, nasihat, dan kesabaran yang Bapak berikan kepada kami. Setiap hari, Bapak mengajarkan kami bukan hanya tentang pelajaran, tetapi juga tentang kehidupan, tentang bagaimana menjadi manusia yang lebih baik. Semoga segala kebaikan, ketulusan, dan perjuangan Bapak selalu dibalas dengan kebahagiaan dan kesehatan.",
+        "Pak Tunggal, selamat hari guru ya pak! Terima kasih sudah sabar ngajarin kami Matematika, meskipun hasilnya kadang lebih banyak 'X' daripada jawaban 😅. Semoga kebahagiaan Bapak selalu konstan dan semangat mengajar tak pernah mengalami penurunan grafik! 😝",
+        "Selamat hari guru pak Tunggal! Semoga bapak tetap sehat, tetap sabar, dan tetap kuat menghadapi kami ya pak! Dan terima kasih sudah sabar menghadapi ekspresi panik saya setiap lihat rumus baru 🙏",
+        "Halo pak, saya mau mengucapkan terimakasih banyak atas bimbingan nya selama 1 semester ini walaupun kita baru ketemu tapi rasa kasih sayang bapak ke X-4 itu kerasa banget meskipun X-4 banyak bikin masalah tapi bapak ga lelah dampingin kita terus. Saya juga mau minta maaf juga kalau ada salah apapun ke bapak atau menyinggung bapak tanpa sengaja maupun tidak sengaja.",
+        "Kami berharap semoga bapak ga capek dampingin X-4 terus supaya bisa berkembang bersama sama, terimakasih ya pak selamat hari guru 💞",
+        "Sehat selalu Pak Tunggal :D",
+        "Terimakasih pak tung sudah membimbing kami dengan sabar dan memberikan contoh yg baik selama satu semester ini! juga meskipun kami kesulitan soal matematika, pak tung tetap sabar membantu kami sampai mengerti. Sehat selalu dan tetap semangat ya pak 👨🏻‍🏫",
+        "Pak Tunggal asik & sabar pol",
+        "Makasih pak atas jasanya selama ini bagi kelas X4",
+        "Selama satu semester ini, pak Tunggal sudah menjadi guru yang hebat dan pesan saya adalah, semoga Pak Tunggal dapat konsisten menjadi guru yang baik",
+        "Mantap, semoga rejeki lancar selalu dan semua masalah bisa diselesaikan.",
+        "Terimakasih pak Tunggal sudah sabar dalam menghadapi kelas X-4, maaf jika kami banyak salahnya dan terkadang membuat pak Tunggal marah & kesal.",
+        "Dibeliin ibu sepatu\nSiang nya naik genteng\nSelamat hari guru wahai Pak Tunggal ganteng",
+        "HALO PAK TUNGGAL, jujur waktu pertama kali ngelihat pak Tunggal, aku ga ekspek waktu denger kalo pak Tunggal itu guru matematika 😭😭 SOALNYA WAJAHNYA PAK TUNGGAL ITU KAYAK PELAWAK. Kan ga cocok gitu ya kalo ngajar matematika. Rata-rata guru matematika kan serius hehehe. Gapapa sih. Cuma radak bosen aja, soalnya waktu kelas 9, wali kelasku guru matematika.\n\nTapi pak Tunggal itu beda banget sama guru matematikaku dulu. Dulu tuh aku benci banget sama matematika, gara-gara gurunya galak dan ngebosenin. Nilai matematikaku dulu juga jelek banget. Kalo pak Tunggal selalu bikin kelas ceria dan metode pembelajarannya itu lho,,, seru banget 🤏 Di SMA ini, aku tertarik banget buat belajar matematika gara-gara pak Tunggal. Pak Tunggal juga bikin aku paham sama pelajaran matematika. Meskipun nilaiku anjlok di awal, but at least I still understand the lesson. Semoga pak Tunggal selalu sehat dan selalu bahagia sama pekerjaan sekarang ini yaa",
+        "Pak Tunggal, jangan stress sama kita ya pak. Stress aja sama matematika pak🙏🏻, meskipun kita ada suka dan duka jangan di bawa stress ya pak.",
+        "SELAMAT HARI GURU PAK TUNGGAL ❗🥳🥳\nGa kerasa ya udah beberapa bulan sama pak Tunggal, maaf ya pak kalo kelas X-4 bikin bapak naik pitam teruss, maaf juga kalo hadiah kita ga semewah kelas lainn. Kita mau ngucapin terima kasih yang banyakk buat pak Tunggal yang udah sabar ngajar kita, walau kadang ada yang rame sendiri, ada yang bobo ,ada juga yang sampe bikin masalah. Sabar-sabar ya pak ngajak kotaaa love love ♥️♥️♥️",
+        "Awal saya belum agak kenal tetapi saat sudah mendalami dan mengenal pak tunggal lebih dalam saya merasa bahwa pak tunggal adalah orang yang baik dan sabar menghadapi setiap masalah yang ada",
+        "Happy teachers' day, terimakasih telah membimbing kami dengan iklas, dan terimakasih juga walau hujan badai angin ribut halilintar pak tunggal tetap datang",
+        "Pak Tung is the best",
+        "Pak Tunggal, Satu semester bersama Bapak bagaikan satu perjalanan malam yang menuntun kami dari kebingungan menuju cahaya. Di setiap pertemuan, Bapak bukan hanya mengajar—Bapak menyalakan rasa ingin tahu, memecah ketakutan kami terhadap kegagalan, dan mengajarkan bahwa proses jauh lebih berharga daripada hasil instan. Ketika kami ragu, Bapak memberi satu kalimat yang cukup untuk membuat kami bangkit lagi. Ketika kami jatuh, Bapak hadir bukan hanya sebagai guru, tetapi sebagai penuntun yang sabar. Terima kasih telah menanamkan keberanian untuk bertanya, ketekunan untuk mencoba, dan rasa hormat pada sederhana—nilai-nilai yang akan kami bawa jauh setelah semester ini usai. Semoga Bapak selalu diberi kekuatan dan inspirasi untuk menerangi jalan murid-murid berikutnya, seperti yang Bapak lakukan untuk kami."
+    ];
+
+    let currentMessageIndex = 0;
+    let clickCount = 0;
+    const clickCounter = document.getElementById('clickCount');
+    const surpriseText = document.getElementById('surpriseText');
+    const mainEmoji = document.getElementById('mainEmoji');
+    const mainTitle = document.getElementById('mainTitle');
+    const messageCard = document.getElementById('messageCard');
+    const studentMessage = document.getElementById('studentMessage');
+    const studentName = document.getElementById('studentName');
+    const pageIndicator = document.getElementById('pageIndicator');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    // Fungsi navigasi halaman
+    function goToPage2() {
+        document.getElementById('page1').classList.remove('active');
+        document.getElementById('page1').classList.add('hidden');
+        document.getElementById('page2').classList.remove('hidden');
+        document.getElementById('page2').classList.add('active');
+        loadMessage(currentMessageIndex);
+    }
+
+    function goToPage1() {
+        document.getElementById('page2').classList.remove('active');
+        document.getElementById('page2').classList.add('hidden');
+        document.getElementById('page1').classList.remove('hidden');
+        document.getElementById('page1').classList.add('active');
+    }
+
+    // Fungsi untuk pesan siswa
+    function loadMessage(index) {
+        // Animasi keluar
+        messageCard.classList.remove('active');
+        messageCard.classList.add('next');
+
+        setTimeout(() => {
+            // Update konten
+            studentMessage.textContent = studentMessages[index];
+            studentName.textContent = "Pesan Anonymous";
+            pageIndicator.textContent = `Pesan ${index + 1} dari ${studentMessages.length}`;
+
+            // Update tombol navigasi
+            prevBtn.disabled = index === 0;
+            nextBtn.disabled = index === studentMessages.length - 1;
+
+            // Animasi masuk
+            messageCard.classList.remove('next');
+            messageCard.classList.add('active');
+        }, 300);
+    }
+
+    function nextMessage() {
+        if (currentMessageIndex < studentMessages.length - 1) {
+            currentMessageIndex++;
+            loadMessage(currentMessageIndex);
+        }
+    }
+
+    function prevMessage() {
+        if (currentMessageIndex > 0) {
+            currentMessageIndex--;
+            loadMessage(currentMessageIndex);
+        }
+    }
+
+    // Fungsi efek suara dan interaktif
+    function playPopSound() {
+        try {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+            oscillator.frequency.exponentialRampToValueAtTime(200, audioContext.currentTime + 0.1);
+            
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.1);
+        } catch (e) {
+            console.log('Audio tidak didukung, lanjut tanpa suara');
+        }
+    }
+
+    function playCelebrateSound() {
+        try {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            
+            for (let i = 0; i < 3; i++) {
+                setTimeout(() => {
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    oscillator.frequency.setValueAtTime(600 + i * 200, audioContext.currentTime);
+                    gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+                    
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.2);
+                }, i * 100);
+            }
+        } catch (e) {
+            console.log('Audio tidak didukung');
+        }
+    }
+
+    function createHearts() {
+        playPopSound();
+        clickCount++;
+        clickCounter.textContent = `Telah diklik: ${clickCount} kali`;
+        
+        for (let i = 0; i < 15; i++) {
+            setTimeout(() => {
+                const heart = document.createElement("div");
+                heart.className = "heart";
+                heart.innerHTML = "💖";
+                heart.style.left = Math.random() * 100 + "vw";
+                heart.style.setProperty("--hue", Math.random() * 360);
+                heart.style.animationDuration = (Math.random() * 2 + 2) + "s";
+                document.body.appendChild(heart);
+                
+                setTimeout(() => {
+                    if (heart.parentNode) {
+                        heart.parentNode.removeChild(heart);
+                    }
+                }, 3000);
+            }, i * 100);
+        }
+    }
+
+    function createMathSymbols() {
+        playPopSound();
+        clickCount++;
+        clickCounter.textContent = `Telah diklik: ${clickCount} kali`;
+        
+        const symbols = ["π", "∞", "∑", "∫", "Δ", "√", "θ", "α", "β", "γ"];
+        
+        for (let i = 0; i < 12; i++) {
+            setTimeout(() => {
+                const symbol = document.createElement("div");
+                symbol.className = "math-symbol";
+                symbol.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
+                symbol.style.left = Math.random() * 100 + "vw";
+                symbol.style.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                symbol.style.animationDuration = (Math.random() * 3 + 2) + "s";
+                document.body.appendChild(symbol);
+                
+                setTimeout(() => {
+                    if (symbol.parentNode) {
+                        symbol.parentNode.removeChild(symbol);
+                    }
+                }, 5000);
+            }, i * 150);
+        }
+    }
+
+    function rainbowText() {
+        playPopSound();
+        clickCount++;
+        clickCounter.textContent = `Telah diklik: ${clickCount} kali`;
+        
+        mainTitle.style.animation = 'rainbow 3s infinite';
+        setTimeout(() => {
+            mainTitle.style.animation = '';
+        }, 3000);
+    }
+
+    function shakeCard() {
+        playPopSound();
+        clickCount++;
+        clickCounter.textContent = `Telah diklik: ${clickCount} kali`;
+        
+        const card = document.querySelector('.card');
+        card.style.animation = 'shake 0.5s ease';
+        setTimeout(() => {
+            card.style.animation = '';
+        }, 500);
+    }
+
+    function showSurprise() {
+        playCelebrateSound();
+        clickCount++;
+        clickCounter.textContent = `Telah diklik: ${clickCount} kali`;
+        
+        surpriseText.style.display = 'block';
+        createConfetti();
+        
+        const emojis = ["🎓", "🌟", "💝", "🎯", "📚", "✨"];
+        let currentIndex = 0;
+        
+        const emojiInterval = setInterval(() => {
+            mainEmoji.textContent = emojis[currentIndex];
+            currentIndex = (currentIndex + 1) % emojis.length;
+        }, 300);
+        
+        setTimeout(() => {
+            clearInterval(emojiInterval);
+            mainEmoji.textContent = "📚✨";
+        }, 3000);
+    }
+
+    function createConfetti() {
+        for (let i = 0; i < 100; i++) {
+            setTimeout(() => {
+                let c = document.createElement("div");
+                c.className = "confetti";
+                c.style.left = Math.random() * 100 + "vw";
+                c.style.setProperty("--hue", Math.random() * 360);
+                c.style.animationDuration = (Math.random() * 2 + 2) + "s";
+                document.body.appendChild(c);
+                
+                setTimeout(() => {
+                    if (c.parentNode) {
+                        c.parentNode.removeChild(c);
+                    }
+                }, 4000);
+            }, i * 30);
+        }
+    }
+
+    // Event listeners
+    document.getElementById('celebrateBtn').addEventListener('click', function() {
+        playCelebrateSound();
+        clickCount++;
+        clickCounter.textContent = `Telah diklik: ${clickCount} kali`;
+        createConfetti();
+        createHearts();
+        createMathSymbols();
+        
+        mainTitle.style.animation = 'rainbow 5s infinite';
+        setTimeout(() => {
+            mainTitle.style.animation = '';
+        }, 5000);
+    });
+
+    mainEmoji.addEventListener('click', function() {
+        playPopSound();
+        clickCount++;
+        clickCounter.textContent = `Telah diklik: ${clickCount} kali`;
+        
+        this.style.transform = 'scale(1.3)';
+        setTimeout(() => {
+            this.style.transform = '';
+        }, 300);
+    });
+
+    // Interaksi hover pada card
+    const card = document.querySelector('.card');
+    card.addEventListener('mouseenter', function() {
+        this.style.boxShadow = '0px 15px 35px rgba(0,0,0,0.15)';
+    });
+    
+    card.addEventListener('mouseleave', function() {
+        this.style.boxShadow = '0px 10px 25px rgba(0,0,0,0.08)';
+    });
+
+    // Efek ketik untuk signature
+    const signature = document.querySelector('.signature');
+    const originalText = signature.innerHTML;
+    
+    signature.addEventListener('click', function() {
+        playPopSound();
+        this.innerHTML = '';
+        let i = 0;
+        const typingEffect = setInterval(() => {
+            if (i < originalText.length) {
+                this.innerHTML += originalText.charAt(i);
+                i++;
+            } else {
+                clearInterval(typingEffect);
+            }
+        }, 50);
+    });
+</script>
+
+</body>
+</html>
